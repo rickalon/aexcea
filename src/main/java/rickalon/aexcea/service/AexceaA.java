@@ -25,4 +25,11 @@ public class AexceaA {
         return user.orElse(new AexceaUser());
     }
 
+    public void deleteUser(long id){
+        aexceaUserRepository.deleteById(id);
+    }
+
+    public void modifyUser(){
+    }
+
 }

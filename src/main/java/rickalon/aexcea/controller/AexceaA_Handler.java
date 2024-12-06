@@ -26,6 +26,8 @@ public class AexceaA_Handler {
 
     private final AexceaA aexceaA;
     private final static String USER_CREATED="user created";
+    private final static String USER_MODIFIED="user modified";
+    private final static String USER_DELETED="user deleted";
 
     public AexceaA_Handler(AexceaA aexceaA){
         this.aexceaA = aexceaA;
@@ -48,13 +50,13 @@ public class AexceaA_Handler {
         return USER_CREATED;
     }
 
-    @PatchMapping("/users")
+    @PatchMapping("/users/")
     public void UpdateUser(){
         System.out.println("Update user");
     }
 
-    @DeleteMapping("/users")
-    public void DeleteUser(){
-        System.out.println("Delete user");
+    @DeleteMapping("/users/{id}")
+    public void DeleteUser(@PathVariable("id") long id){
+        aexceaA.deleteUser(id);
     }
 }
