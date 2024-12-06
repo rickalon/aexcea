@@ -56,7 +56,8 @@ public class AexceaA_Handler {
     }
 
     @DeleteMapping("/users/{id}")
-    public void DeleteUser(@PathVariable("id") long id){
+    public String DeleteUser(@PathVariable("id") long id){
         aexceaA.deleteUser(id);
+        return USER_DELETED;
     }
 }
