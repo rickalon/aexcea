@@ -12,21 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/seattle")
+@RequestMapping("/aexcea/a")
 public class Aexcea_Seattle_Handler {
 
     @Value("${api.facegeneration.url}")
     private String faceGeneratorUrl;
     
-    @GetMapping("/users")
-    public ResponseEntity<byte[]> GetUser(RestTemplate restTemplate){
+    @GetMapping("/faces")
+    public ResponseEntity<byte[]> GetFaceGenerator(RestTemplate restTemplate){
         byte[] response = restTemplate.getForObject(faceGeneratorUrl, byte[].class);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(response);
     }
 
+    @GetMapping("/users")
+    public void GetUser(){
+        System.out.println("Get user");
+    }
+
     @PostMapping("/users")
     public void AddUser(RestTemplate restTemplate){
-        byte[] response = restTemplate.getForObject(faceGeneratorUrl, byte[].class);
+        System.out.println("Add user");
     }
 
     @PatchMapping("/users")
