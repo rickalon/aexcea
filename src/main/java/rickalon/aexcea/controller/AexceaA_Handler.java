@@ -6,17 +6,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import rickalon.aexcea.model.AexceaUser;
+import rickalon.aexcea.service.AexceaA;
+
 @RestController
 @RequestMapping("/aexcea/a")
-public class Aexcea_Seattle_Handler {
+public class AexceaA_Handler {
 
+    
     @Value("${api.facegeneration.url}")
     private String faceGeneratorUrl;
+
+    private final AexceaA aexceaA;
+    private final static String USER_CREATED="user created";
+
+    public AexceaA_Handler(AexceaA aexceaA){
+        this.aexceaA = aexceaA;
+    }
     
     @GetMapping("/faces")
     public ResponseEntity<byte[]> GetFaceGenerator(RestTemplate restTemplate){
@@ -24,14 +37,15 @@ public class Aexcea_Seattle_Handler {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(response);
     }
 
-    @GetMapping("/users")
-    public void GetUser(){
-        System.out.println("Get user");
+    @GetMapping("/users/{id}")
+    public AexceaUser GetUser(@PathVariable("id") long id){
+        return aexceaA.getUser(id);
     }
 
     @PostMapping("/users")
-    public void AddUser(RestTemplate restTemplate){
-        System.out.println("Add user");
+    public String AddUser(@RequestBody AexceaUser aexceaUser){
+        aexceaA.addUser(aexceaUser);
+        return USER_CREATED;
     }
 
     @PatchMapping("/users")
