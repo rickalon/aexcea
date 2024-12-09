@@ -28,6 +28,9 @@ public class AexceaA_Handler {
     private final static String USER_CREATED="user created";
     private final static String USER_MODIFIED="user modified";
     private final static String USER_DELETED="user deleted";
+    private final static String NOT_USER_CREATED="user not created";
+    private final static String NOT_USER_MODIFIED="user not modified";
+    private final static String NOT_USER_DELETED="user not deleted";
 
     public AexceaA_Handler(AexceaA aexceaA){
         this.aexceaA = aexceaA;
@@ -46,18 +49,31 @@ public class AexceaA_Handler {
 
     @PostMapping("/users")
     public String AddUser(@RequestBody AexceaUser aexceaUser){
-        aexceaA.addUser(aexceaUser);
-        return USER_CREATED;
+        boolean result = aexceaA.addUser(aexceaUser);
+        if(result){
+            return USER_CREATED;
+        }else{
+            return NOT_USER_CREATED;
+        }
     }
 
-    @PatchMapping("/users/")
-    public void UpdateUser(){
-        System.out.println("Update user");
+    @PatchMapping("/users/{id}")
+    public String UpdateUser(@RequestBody AexceaUser user, @PathVariable("id") long id){
+        boolean result = aexceaA.modifyUser(id, user);
+        if(result){
+            return USER_MODIFIED;
+        }else{
+            return NOT_USER_MODIFIED;
+        }
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{Wid}")
     public String DeleteUser(@PathVariable("id") long id){
-        aexceaA.deleteUser(id);
-        return USER_DELETED;
+        boolean result = aexceaA.deleteUser(id);
+        if(result){
+            return USER_DELETED;
+        }else{
+            return NOT_USER_DELETED;
+        }
     }
 }

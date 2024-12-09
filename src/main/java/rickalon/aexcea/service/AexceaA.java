@@ -16,8 +16,9 @@ public class AexceaA {
         this.aexceaUserRepository = aexceaUserRepository;
     }
 
-    public void addUser(AexceaUser user){
+    public boolean addUser(AexceaUser user){
         aexceaUserRepository.save(user);
+        return true;
     }
 
     public AexceaUser getUser(long id){
@@ -25,11 +26,24 @@ public class AexceaA {
         return user.orElse(new AexceaUser());
     }
 
-    public void deleteUser(long id){
+    public boolean deleteUser(long id){
         aexceaUserRepository.deleteById(id);
+        return true;
     }
 
-    public void modifyUser(){
+    public boolean modifyUser(long id, AexceaUser user){
+        Optional<AexceaUser> opUser = aexceaUserRepository.findById(id);
+        if(opUser.isEmpty()){
+            return false;
+        }
+        AexceaUser existingUser = opUser.get();
+        if(user.getName() != null && !user.getName().isEmpty()){
+            existingUser.setName(user.getName());
+        }
+        if(user.getAge()!=null && user.getAge()!=0){
+            existingUser.setAge(user.getAge());
+        }
+        return addUser(existingUser);
     }
 
 }
